@@ -1,4 +1,4 @@
 videoPlayer
 ===========
 
-a very simple  video player with SDL &amp; ffmpeg
+a very simple  video player with SDL & ffmpeg
