@@ -38,7 +38,7 @@ CFLAGS += -DENABLE_AO_DSOUND=0
 
 CFLAGS += -I. -I/usr/local/include -g -Wall  -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_ISOC9X_SOURCE -std=c99
 
-LDFLAGS += -lavdevice  -lswresample -lavformat -lavcodec -lavutil -lswscale -lGLU -lGL -lm -lz -lpthread -lX11 -lSDL
+LDFLAGS += -lavdevice  -lavfilter -lswresample -lavformat -lavcodec -lavutil -lswscale -lGLU -lGL -lm -lz -lpthread -lX11 -lSDL
 
 #####################################
 

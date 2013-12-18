@@ -580,7 +580,7 @@ int video_thread(void *arg) {
 		global_video_pkt_pts = packet->pts;
 
 		len1 = avcodec_decode_video2(is->video_st->codec, pFrame, &frameFinished, packet);
-
+/*
 		if(packet->dts == AV_NOPTS_VALUE && *(uint64_t*)pFrame->opaque != AV_NOPTS_VALUE) {
 			pts = *(uint64_t*)pFrame->opaque;
 		} else if(packet->dts != AV_NOPTS_VALUE) {
@@ -590,7 +590,7 @@ int video_thread(void *arg) {
 		}
 
 		pts *= av_q2d(is->video_st->time_base);
-
+*/
 		if(frameFinished) {
 			pts = synchronize_video(is, pFrame, pts);
 			if(queue_picture(is, pFrame, pts) < 0) 
@@ -755,10 +755,12 @@ static int decode_thread(void *arg) {
 	
 	if(video_index >= 0) stream_component_open(is, video_index); 
 
-    if (is->audioStream < 0 || is->videoStream < 0) {
+	//TODO:
+/*    if (is->audioStream < 0 || is->videoStream < 0) {
         fprintf(stderr, "%s: could not open codecs\n", is->filename);
         goto fail;
     }
+	*/
     /* 开始解码主循环 */
     for(;;) {
         if(is->quit) 
@@ -980,9 +982,16 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+	XInitThreads();
+
     is = (VideoState *)av_mallocz(sizeof(VideoState));
 
+	avcodec_register_all();
+	avdevice_register_all();
+	avfilter_register_all();
     av_register_all();
+	avformat_network_init();
+
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
         fprintf(stderr, "Could not initialize SDL - %s\n", SDL_GetError());
         exit(1);
